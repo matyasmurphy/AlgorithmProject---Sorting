@@ -37,8 +37,8 @@ namespace AlgorithmProject___Sorting
                 }
                 else
                 {
-                    Console.WriteLine("Generating 5000 random words...");
-                    stringData = GenerateRandomStrings(5000);
+                    Console.WriteLine("Generating 5 random words...");
+                    stringData = GenerateRandomStrings(5);
                 }
             }
             else // Defaultně čísla
@@ -58,8 +58,8 @@ namespace AlgorithmProject___Sorting
                 }
                 else
                 {
-                    Console.WriteLine("Generating 20,000 random numbers...");
-                    numberData = GenerateRandomNumbers(20000);
+                    Console.WriteLine("Generating 5 random numbers...");
+                    numberData = GenerateRandomNumbers(5);
                 }
             }
 
@@ -90,20 +90,27 @@ namespace AlgorithmProject___Sorting
                     case "1":
                         if (isWorkingWithNumbers)
                         {
-                            // Vytvoříme kopii, abychom neseřadili originál (pro další testy)
                             int[] dataClone = (int[])numberData.Clone();
                             SelectionSort.Run(dataClone);
                         }
                         else
                         {
-                            // Vytvoříme kopii textových dat
                             string[] dataClone = (string[])stringData.Clone();
                             SelectionSort.Run(dataClone);
                         }
                         break;
 
                     case "2":
-                        // BubbleSort.Run(dataProTest);
+                        if (isWorkingWithNumbers)
+                        {
+                            int[] dataClone = (int[])numberData.Clone();
+                            BubbleSort.Run(dataClone);
+                        }
+                        else
+                        {
+                            string[] dataClone = (string[])stringData.Clone();
+                            BubbleSort.Run(dataClone);
+                        }
                         break;
 
                     case "0":
@@ -117,18 +124,17 @@ namespace AlgorithmProject___Sorting
 
                 Console.WriteLine("\nPress Enter to continue...");
                 Console.ReadLine();
-                Console.Clear(); // Vyčistí konzoli, aby to vypadalo hezky
+                Console.Clear();
             }
         }
 
-        // Pomocná metoda pro generování čísel
         static int[] GenerateRandomNumbers(int amount)
         {
             Random random = new Random();
             int[] array = new int[amount];
             for (int i = 0; i < amount; i++)
             {
-                array[i] = random.Next(1, 1000000); // Náhodná čísla od 1 do milionu
+                array[i] = random.Next(1, 101);
             }
             return array;
         }
@@ -154,28 +160,25 @@ namespace AlgorithmProject___Sorting
 
         static int[] LoadNumbersFromFile(string filePath)
         {
-            // List je "nafukovací" pole, protože nevíme přesně, kolik řádků soubor má
             List<int> loadedNumbers = new List<int>();
 
             Console.WriteLine($"Loading File: {filePath} ...");
 
-            // Kontrola, zda soubor existuje
-            if (!File.Exists(filePath))
+            if (!File.Exists(filePath)) // kontrola jestli soubor existuje
             {
                 Console.WriteLine("Error: File doesnt exist");
-                return new int[0]; // Vrátíme prázdné pole
+                return new int[0]; // pokud ne vratime prazdne pole
             }
 
             try
             {
-                // StreamReader je nejrychlejší způsob čtení velkých souborů
                 using (StreamReader sr = new StreamReader(filePath))
                 {
                     string row;
-                    // Čteme dokud nenarazíme na konec souboru
+                    // cte dokud nenarazi na konec souboru
                     while ((row = sr.ReadLine()) != null)
                     {
-                        // Zkusíme převést text na číslo
+                        // text na číslo
                         if (int.TryParse(row, out int cislo))
                         {
                             loadedNumbers.Add(cislo);
@@ -189,7 +192,7 @@ namespace AlgorithmProject___Sorting
             }
 
             Console.WriteLine($"Successfully loaded {loadedNumbers.Count} numbers.");
-            return loadedNumbers.ToArray(); // Převedeme List zpět na klasické pole int[]
+            return loadedNumbers.ToArray(); // prevedeme List na pole int[]
         }
 
         static string[] LoadStringsFromFile(string path)

@@ -11,12 +11,12 @@ namespace AlgorithmProject___Sorting
     {
         public static void Run(int[] numbers)
         {
-            Console.WriteLine($"--- running Selection Sort for {numbers.Length} elements ---");
+            Console.WriteLine($"--- Starting Selection Sort for {numbers.Length} numbers ---");
 
             Stopwatch stopky = new Stopwatch();
             stopky.Start();
 
-            long timeLimitMs = 3600000;
+            long timeLimitMs = 3600000; //1h
             bool finished = true;
 
             for (int i = 0; i < numbers.Length - 1; i++) // - 1 protoze posledni prvek, bych porovnaval sam se sebou
