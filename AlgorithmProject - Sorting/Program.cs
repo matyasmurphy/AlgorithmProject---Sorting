@@ -79,7 +79,8 @@ namespace AlgorithmProject___Sorting
                 Console.WriteLine("   PROJEKT TRIZENI - MENU   ");
                 Console.WriteLine("============================");
                 Console.WriteLine("1 - Selection Sort");
-                Console.WriteLine("2 - Bubble Sort (not implemented)");
+                Console.WriteLine("2 - Bubble Sort");
+                Console.WriteLine("3 - Insertion Sort");
                 Console.WriteLine("0 - End program");
                 Console.Write("Enter number: ");
 
@@ -110,6 +111,19 @@ namespace AlgorithmProject___Sorting
                         {
                             string[] dataClone = (string[])stringData.Clone();
                             BubbleSort.Run(dataClone);
+                        }
+                        break;
+
+                    case "3":
+                        if (isWorkingWithNumbers)
+                        {
+                            int[] dataClone = (int[])numberData.Clone();
+                            InsertionSort.Run(dataClone);
+                        }
+                        else
+                        {
+                            string[] dataClone = (string[])stringData.Clone();
+                            InsertionSort.Run(dataClone);
                         }
                         break;
 
