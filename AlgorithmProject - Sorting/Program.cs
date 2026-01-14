@@ -32,7 +32,7 @@ namespace AlgorithmProject___Sorting
 
                 if (source == "2")
                 {
-                    string path = "C:\\Users\\Murphy Matyáš Josef\\OneDrive - DELTA - SŠIE, s.r.o\\Plocha\\Data pro třídění\\random_words_10M.txt"; // Odstranění uvozovek z cesty
+                    string path = "C:\\Users\\Murphy Matyáš Josef\\OneDrive - DELTA - SŠIE, s.r.o\\Plocha\\Data pro třídění\\random_words_10M.txt";
                     stringData = LoadStringsFromFile(path);
                 }
                 else
@@ -81,6 +81,10 @@ namespace AlgorithmProject___Sorting
                 Console.WriteLine("1 - Selection Sort");
                 Console.WriteLine("2 - Bubble Sort");
                 Console.WriteLine("3 - Insertion Sort");
+                Console.WriteLine("4 - Heap Sort");
+                Console.WriteLine("5 - Merge Sort");
+                Console.WriteLine("6 - Quick Sort");
+                Console.WriteLine("7 - Radix Sort");
                 Console.WriteLine("0 - End program");
                 Console.Write("Enter number: ");
 
@@ -89,48 +93,36 @@ namespace AlgorithmProject___Sorting
                 switch (index2)
                 {
                     case "1":
-                        if (isWorkingWithNumbers)
-                        {
-                            int[] dataClone = (int[])numberData.Clone();
-                            SelectionSort.Run(dataClone);
-                        }
-                        else
-                        {
-                            string[] dataClone = (string[])stringData.Clone();
-                            SelectionSort.Run(dataClone);
-                        }
+                        RunAlgorithm("Selection Sort", isWorkingWithNumbers, numberData, stringData, SelectionSort.Run, SelectionSort.Run);
                         break;
 
                     case "2":
-                        if (isWorkingWithNumbers)
-                        {
-                            int[] dataClone = (int[])numberData.Clone();
-                            BubbleSort.Run(dataClone);
-                        }
-                        else
-                        {
-                            string[] dataClone = (string[])stringData.Clone();
-                            BubbleSort.Run(dataClone);
-                        }
+                        RunAlgorithm("Bubble Sort", isWorkingWithNumbers, numberData, stringData, BubbleSort.Run, BubbleSort.Run);
                         break;
 
                     case "3":
-                        if (isWorkingWithNumbers)
-                        {
-                            int[] dataClone = (int[])numberData.Clone();
-                            InsertionSort.Run(dataClone);
-                        }
-                        else
-                        {
-                            string[] dataClone = (string[])stringData.Clone();
-                            InsertionSort.Run(dataClone);
-                        }
+                        RunAlgorithm("Insertion Sort", isWorkingWithNumbers, numberData, stringData, InsertionSort.Run, InsertionSort.Run);
+                        break;
+
+                    case "4":
+                        RunAlgorithm("Heap Sort", isWorkingWithNumbers, numberData, stringData, HeapSort.Run, HeapSort.Run);
+                        break;
+
+                    case "5":
+                        RunAlgorithm("Merge Sort", isWorkingWithNumbers, numberData, stringData, MergeSort.Run, MergeSort.Run);
+                        break;
+
+                    case "6":
+                        RunAlgorithm("Quick Sort", isWorkingWithNumbers, numberData, stringData, QuickSort.Run, QuickSort.Run);
+                        break;
+
+                    case "7":
+                        RunAlgorithm("Radix Sort", isWorkingWithNumbers, numberData, stringData, RadixSort.Run, RadixSort.Run);
                         break;
 
                     case "0":
                         isRunning = false;
                         break;
-
                     default:
                         Console.WriteLine("Error, try again.");
                         break;
@@ -140,6 +132,46 @@ namespace AlgorithmProject___Sorting
                 Console.ReadLine();
                 Console.Clear();
             }
+        }
+
+        static void RunAlgorithm(string algName, bool useNumbers, int[] numbersSource, string[] stringSource, Action<int[]> numberSort, Action<string[]> stringSort)
+        {
+            Console.WriteLine($"--- Starting {algName} ---");
+
+            Stopwatch sw = new Stopwatch();
+
+            if (useNumbers)
+            {
+                int[] dataClone = (int[])numbersSource.Clone(); // Klonujeme data
+                Console.WriteLine($"Sorting {dataClone.Length} numbers...");
+
+                sw.Start();
+                numberSort(dataClone); // Spuštění algoritmu
+                sw.Stop();
+
+                // Kontrolní výpis (jen pokud je dat málo)
+                if (dataClone.Length <= 100) PrintArray(dataClone);
+            }
+            else
+            {
+                string[] dataClone = (string[])stringSource.Clone(); // Klonujeme data
+                Console.WriteLine($"Sorting {dataClone.Length} words...");
+
+                sw.Start();
+                stringSort(dataClone); // Spuštění algoritmu
+                sw.Stop();
+
+                if (dataClone.Length <= 100) PrintArray(dataClone);
+            }
+
+            Console.WriteLine($"\nDONE! Time elapsed: {sw.Elapsed}");
+        }
+
+        static void PrintArray<T>(T[] array)
+        {
+            Console.Write("Sorted: ");
+            foreach (var item in array) Console.Write(item + " ");
+            Console.WriteLine();
         }
 
         static int[] GenerateRandomNumbers(int amount)
